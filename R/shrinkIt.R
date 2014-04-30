@@ -54,7 +54,7 @@ shrinkIt <- function(observation, obs1=NULL, obs2=NULL, noiseVar="common"){
   ## Compute Noise Variance
   
   if(is.numeric(noiseVar)){
-    Var.u <- Var.u.avg <- rep(noiseVar, M)
+    Var.u <- Var.u.avg <- rep(noiseVar, m)
   } else if(noiseVar=="common") {
     Var.u <- Var.u.avg <- 1/2*rowVars(obs2-obs1)
   } else if(noiseVar=="individual"){
