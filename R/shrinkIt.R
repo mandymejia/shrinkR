@@ -13,7 +13,7 @@
 #' @param X1 An m-by-n matrix, where the ith column contains the m observed values of subject i 
 #' @param X2 An m-by-n matrix, where the ith column contains a second set of the m observed values 
 #' of subject i (see Description for details)
-#' @param T A scalar equal to the total amount of scan time (in minutes) collected for each
+#' @param len A scalar equal to the total amount of scan time (in minutes) collected for each
 #' subject.  This value will be used to adjust the noise variance estimate, since it will tend
 #' to be over-estimated by splitting the data to compute X1 and X2.
 #' @details The shrinkage estimate of value m for subject i is given by
@@ -42,7 +42,7 @@
 #' @return A list containing (1) the shrunken estimates (an m-by-n matrix), (2) the shrinkage 
 #' parameter lambda (a vector of length m), (3) the noise variance estimate (a scalar), and (4) 
 #' the signal variance estimate (a vector of length m).  
-#' @importFrom genefilter rowVars
+#' @importFrom matrixStats rowVars
 #' @examples \dontrun{
 #'
 #'}

@@ -3,9 +3,9 @@ Type: Package
 Title: Performs shrinkage of subject-level observations towards the group mean
 Version: 1.0
 Date: 2014-04-30
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
+Author: Amanda Mejia
+Maintainer: Amanda Mejia <mandy.mejia@gmail.com>
 Description: More about what it does (maybe more than one line)
-License: What license is it under?
-Depends:
-    genefilter
+License: GPL-2
+Imports:
+    matrixStats
