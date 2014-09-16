@@ -18,7 +18,7 @@
 #' to be over-estimated by splitting the data to compute X1 and X2.
 #' @details The shrinkage estimate of value m for subject i is given by
 #' 
-#'          X*_i(m) = λ_m\bar(X(m))+[1-λ_m]X_i(m).
+#'          X*_i(m) = λ_m(X_bar(m))+[1-λ_m]X_i(m).
 #'          
 #' The "raw" observation X_i is the average of X1_i (the first observation vector for subject i) 
 #' and X2_i (the second observation vector for subject i).  
