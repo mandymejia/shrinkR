@@ -8,17 +8,14 @@ rowVars(x, na.rm = TRUE)
 }
 \arguments{
 \item{x}{a matrix}
+
+\item{na.rm}{If TRUE (default), \code{NA} values are stripped before
+computation.  If FALSE, \code{NA} values are included in computation.}
 }
 \value{
-A vector of numerics, same length as the number of rows of the 
-matrix
+A vector of numerics of length \code{nrow(x)}
 }
 \description{
 Computes variance of each row of a matrix.
-}
-\examples{
-\dontrun{
-
-}
 }
 

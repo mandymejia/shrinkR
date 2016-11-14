@@ -3,11 +3,11 @@
 \name{shrinkR-package}
 \alias{shrinkR}
 \alias{shrinkR-package}
-\title{Shrinkage in resting-state fMRI}
+\title{Empirical Bayes Shrinkage of Estimates of Time Series Data}
 \description{
-Performs shrinkage
-using resting-state fMRI based on 
-\url{http://www.sciencedirect.com/science/article/pii/S105381191400408X}
-but for for subject-level parcellation
+Performs empirical Bayes shrinkage towards the 
+group mean of subject-level estimates of some summary statistic of 
+stationary or nonstationary time series data (e.g. functional connectivity 
+matrices produced from resting-state fMRI data).
 }
 

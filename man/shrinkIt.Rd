@@ -2,81 +2,91 @@
 % Please edit documentation in R/shrinkIt.R
 \name{shrinkIt}
 \alias{shrinkIt}
-\title{Performs empirical Bayes shrinkage of quantity(ies) of interest from stationary or nonstationary 
-time series data}
+\title{Empirical Bayes Shrinkage of Estimates from Time Series Data}
 \usage{
-shrinkIt(W_part1, W_part2, W_odd, W_even, estimate.only = FALSE)
+shrinkIt(W_all, W_part1, W_part2, W_odd, W_even, estimates.only = FALSE)
 }
 \arguments{
-\item{W_part1}{An M-by-n matrix, where the ith column contains estimates of the M quantities of interest
-produced from the first part of the time series of subject i (see getSubEstimates for details)}
+\item{W_all}{An M-by-n matrix, where the ith column contains estimates of 
+the M quantities of interest produced from the full time series of subject i 
+(see \code{\link{getSubEstimates}} for details)}
 
-\item{W_part2}{An M-by-n matrix, where the ith column contains estimates of the M quantities of interest
-produced from the second part of the time series of subject i (see getSubEstimates for details)}
+\item{W_part1}{An M-by-n matrix, where the ith column contains estimates of 
+the M quantities of interest produced from the first part of the time series 
+of subject i (see \code{\link{getSubEstimates}} for details)}
 
-\item{W_odd}{An M-by-n matrix, where the ith column contains estimates of the M quantities of interest
-produced from the odd blocks of the time series of subject i (see getSubEstimates for details)}
+\item{W_part2}{An M-by-n matrix, where the ith column contains estimates of 
+the M quantities of interest produced from the second part of the time series 
+of subject i (see \code{\link{getSubEstimates}} for details)}
 
-\item{W_even}{An M-by-n matrix, where the ith column contains estimates of the M quantities of interest
-produced from the even blocks of the time series of subject i (see getSubEstimates for details)}
+\item{W_odd}{An M-by-n matrix, where the ith column contains estimates of 
+the M quantities of interest produced from the odd blocks of the time series 
+of subject i (see \code{\link{getSubEstimates}} for details)}
+
+\item{W_even}{An M-by-n matrix, where the ith column contains estimates of 
+the M quantities of interestproduced from the even blocks of the time series 
+of subject i (see \code{\link{getSubEstimates}} for details)}
+
+\item{estimates.only}{If TRUE, only the shrinkage estimates are returned.  If 
+FALSE (default), the shrinkage parameters and variance components are also 
+returned.}
 }
 \value{
-A list containing (1) the shrunken estimates (an m-by-n matrix), (2) the shrinkage 
-parameter lambda (a vector of length m), (3) the noise variance estimate (a scalar), and (4) 
-the signal variance estimate (a vector of length m).
+If \code{estimates.only=FALSE}, a list containing the shrinkage 
+estimates (an M-by-n matrix), the shrinkage parameters lambda (a vector of 
+length M), and the variance components (total, between-subject, and 
+within-subject (overall, sampling and intrasession)) (each a vector of length 
+M).  If \code{estimates.only=TRUE}, an m-by-n matrix of shrinkage estimates.
 }
 \description{
-This function performs empirical Bayes shrinkage towards the group mean of subject-level 
-estimates of some summary statistic of time series data (e.g. functional connectivity matrices produced
-from resting-state fMRI data).
+This function performs empirical Bayes shrinkage towards the 
+group mean of subject-level estimates of some summary statistic of 
+stationary or nonstationary time series data (e.g. functional connectivity 
+matrices produced from resting-state fMRI data).
 }
 \details{
 This function performs empirical Bayes shrinkage towards the group 
-mean of subject-level 
-estimates of some summary statistic of stationary or nonstationary 
-time series data (e.g. functional connectivity 
-matrices produced from resting-state fMRI data).  If the quantity of 
-interest is a voxel pair-wise correlation, 
-similarity or distance matrix for use in clustering, shrinkage estimates 
-can be used in place of raw subject-level 
+mean of subject-level estimates of some summary statistic of stationary or 
+nonstationary time series data (e.g. functional connectivity matrices 
+produced from resting-state fMRI data).  If the quantity of interest is a 
+voxel pair-wise correlation, similarity or distance matrix for use in 
+clustering, shrinkage estimates can be used in place of raw subject-level 
 estimates to produce more reliable subject-level brain parcellations.  
-The shrinkage parameter \eqn{\lambda}
-ranges from 0 (no shrinkage of subject-level estimates) to 1 (complete 
-shrinkage, so subject-level 
-estimates are replaced with the group average), and is determined by the 
-relationship between within-subject 
-variance and between-subject variance.  The shrinkage parameters 
-\eqn{\lambda_m}, \eqn{m = 1,\dots,M}, are 
-computed separately for every quantity of interest (e.g. every element 
-in the upper triangle of a correlation matrix),
-but are shared across subjects. The shrinkage estimate of the value 
-\eqn{X_i(m)} for subject \eqn{i=1,\dots,n} 
-and quantity \eqn{m = 1,\dots,M} is
+The shrinkage estimate of the \eqn{m}th quantity of interest \eqn{X_i(m)} for 
+subject \eqn{i} is
 
-         \eqn{\tilde{X}_i(m) = \lambda_m(\bar{W}(m)) + [1-\lambda_m] W_i(m)}.
+     \deqn{\tilde{X}_i(m) = \lambda(m)(\bar{W}(m)) + [1-\lambda(m)] W_i(m)}
          
-The "raw" observation \eqn{W_i} is the average of the \eqn{i}th column of 
-W_part1 and W_part2, and \eqn{\bar{W}(m)}
-is the average of \eqn{W_i} across all subjects \eqn{i=1,\dots,n}.
-         
-The shrinkage parameter \eqn{\lambda_m} represents the optimal trade-off 
-between signal and noise.  More reliable 
-subject-level estimates will receive less shrinkage, while less reliable 
-subject-level estimates will receive more 
-shrinkage.  \eqn{\lambda_m} is computed from the data as
+where the "raw" observation \eqn{W_i(m)} is the \eqn{(m,i)} element of 
+\code{W_all}, and \eqn{\bar{W}(m)} is the average of \eqn{W_i(m)} across all 
+subjects \eqn{i=1,\dots,n}.
 
-       \eqn{\lambda_m = \sigma^2_{w/in}/(\sigma^2_{w/in}+\sigma^2_{b/wn})}.
+The shrinkage parameters \eqn{\lambda(m)}, \eqn{m=1,\dots,M}, ranges from 
+0 (no shrinkage) to 1 (complete shrinkage, so subject-level estimates are 
+replaced with the group average), and is determined by the relationship 
+between within-subject variance and between-subject variance in the data.  
+More reliable estimates (low within-subject variance, relative to between-
+subject variance) will receive less shrinkage, while less reliable estimates
+(high within-subject variance, relative to between-subject variance) will 
+receive more shrinkage. The \eqn{\lambda(m)} are computed separately for every 
+quantity of interest \eqn{m = 1,\dots,M} (e.g. every element in the upper 
+triangle of a connectivity matrix), but are common across subjects (subjects 
+are assumed to have time series of equal length).  Specifically, 
+\eqn{\lambda_m} is computed as
 
-The within-subject variance \eqn{\sigma^2_{w/in}} is composed of two components: sampling variance, or error due to 
-random variation in the data, and intrasession variance in the signal over time.  The second component is used
-as a proxy for intersession variance, which cannot be computed in the absence of multiple manifestations of the
-time series (e.g. multiple fMRI sessions).  The between-subject variance \eqn{\sigma^2_{b/wn}} represents
-the variance between subjects in the \emph{signal} of interest and is equal to the total variance in the observed
-estimates (those based on the full time series) minus the total within-subject variance.
-}
-\examples{
-\dontrun{
+\deqn{\lambda(m) = \sigma^2_{win}(m)/(\sigma^2_{win}(m)+\sigma^2_{bwn}(m))},
+     
+where \eqn{\sigma^2_{win}(m)} is the within-subject variance and 
+\eqn{\sigma^2_{bwn}(m)} is the between-subject variance of quantity \eqn{m}.
 
-}
+Within-subject variance \eqn{\sigma^2_{win}(m)} has two components: sampling 
+variance, or error due to random variation in the data, and intersession
+variance, due to changes in the signal of interest across multiple multiple 
+manifestations of the time series (e.g. multiple fMRI sessions). Intrasession 
+variance is used as a proxy for intersession variance, which typically
+cannot be computed.  Between-subject variance \eqn{\sigma^2_{bwn}} represents
+the variance in the signal of interest across subjects and is computed as the 
+total variance in the observed estimates \code{W_all[m,]} minus 
+\eqn{\sigma^2_{win}(m)}.
 }
 

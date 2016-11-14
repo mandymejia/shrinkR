@@ -1,49 +1,53 @@
-#' @title Computes estimates of quantity(ies) of interest from subsamples of time series for use in shrinkIt
+#' @title Computes Estimates from Sub Time Series
 #'
-#' @description This function computes 4 estimates of the quantity(ies) of interest from the 
-#' time series of a single subject.  The resulting estimates should be vectorized and concatenated into 
-#' 4 matrices (each subject is a column) for input to shrinkIt.
-#' @param Y A \eqn{T\times K} matrix, where T is the number of time points in the time series and K is the number of 
-#' variables (e.g. voxels, regions) observed at each time point.
-#' @param FUN A function that can be applied to a TxK matrix to obtain an estimate of the quantity of 
-#' interest (e.g. \code{FUN=cor} returns the KxK pairwise correlation matrix)
-#' @param block.size The number of time points forming each block for estimation of sampling variance 
-#' (see Details).  Default is 5 time points.
-#' @param block.space The number of time points separating consecutive blocks (see Details).  Default is
-#' one time point.
-#' @details The shrinkIt function takes in four estimates of the quantity of interest, \eqn{x_i}, for 
-#' each subject \eqn{i=1,\dots,n}, in the form of 4 \eqn{M\times n} matrices, where M is the length of the vectorized 
-#' quantity of interest (e.g. number of elements in the upper triangle of the \eqn{K\times K} correlation or pairwise 
-#' correlation matrix).  This function subsamples the time series of the ith subject to obtain the \eqn{i}th 
-#' column of these four matrices.
+#' @description This function computes 5 estimates of the quantity(ies) of 
+#' interest from the time series of a single subject.  The resulting estimates 
+#' should be vectorized and concatenated into 5 matrices across subjects for 
+#' input to shrinkIt (see \code{link{shrinkIt}}).
+#' @param Y A \eqn{T\times K} matrix, where T is the number of time points in 
+#' the time series and K is the number of variables (e.g. voxels, regions) 
+#' observed at each time point.
+#' @param FUN A function that can be applied to a TxK matrix to obtain an 
+#' estimate of the quantity of interest (e.g. \code{FUN=cor} returns the KxK 
+#' pairwise correlation matrix)
+#' @param block.size The number of time points forming each block for estimation 
+#' of sampling variance (see Details).  Default is 5.
+#' @param block.space The number of time points separating consecutive blocks 
+#' (see Details).  Default is 1.
+#' @details 
 #' 
-#' The four inputs to shrinkIt are W_part1, W_part2, W_odd and W_even.  W_odd and W_even are used to 
-#' estimate the sampling variance associated with the estimation of the quantity of interest.  W_part1 
-#' and W_part2 are used to estimate the intrasession variance of the signal of interest, which serves as 
-#' a proxy for intersession variance.  For details on the computation of both variance components, see 
-#' shrinkIt.
+#' The main arguments to \code{\link{shrinkIt}} are W_all, W_part1, W_part2, 
+#' W_odd and W_even, each a matrix size \eqn{M\times n}, where M is the length 
+#' of the vectorized quantity of interest (e.g. number of elements in the upper 
+#' triangle of a \eqn{K\times K} correlation matrix).  W_odd and W_even are 
+#' used to estimate sampling variance, while W_part1 and W_part2 are used to 
+#' estimate intrasession variance. For more details, see \code{\link{shrinkIt}}.  
+#' This function subsamples the time series of a single subject \eqn{i} to 
+#' obtain the \eqn{i}th columns of W_all, W_part1, W_part2, W_odd and W_even,
+#' respectively.  
 #' 
-#' Let \eqn{Y_i} be the \eqn{T\times K} timeseries of \eqn{K} variables for subject \eqn{i}.
-#'
-#' The \eqn{i}th column of W_part1 (the first argument to shrinkIt) is the estimate of \eqn{x_i} produced 
-#' from the first \eqn{T'} time points of \eqn{Y_i}, where \eqn{T'\leq T/2}.  The \eqn{i}th column of 
-#' W_part2 (the second argument to shrinkIt) is the estimate of \eqn{x_i} produced from the last \eqn{T'} 
-#' time points of \eqn{Y_i}.
+#' Let \eqn{Y_i} be the \eqn{T\times K} timeseries of \eqn{K} variables for 
+#' subject \eqn{i}.  The \eqn{i}th column of \code{W_all} is the estimate of 
+#' \eqn{x_i} produced from the full time series \eqn{Y_i}.  The \eqn{i}th column 
+#' of \code{W_part1} is the estimate of \eqn{x_i} produced from the first 
+#' \eqn{T'} time points of \eqn{Y_i}, where \eqn{T'\leq T/2} is the length of 
+#' the even block time series (see below).  The \eqn{i}th column of 
+#' \code{W_part2} is the estimate of \eqn{x_i} produced from the last \eqn{T'} 
+#' time points of \eqn{Y_i}. 
 #' 
-#' The \eqn{i}th column of W_odd (the third argument to shrinkIt) is the estimate of \eqn{x_i} produced 
-#' from the odd blocks of length block.size of \eqn{Y_i}. The \eqn{i}th column of W_even (the fourth 
-#' argument to shrinkIt) is the estimate of \eqn{x_i} produced from the even blocks of length block.size of 
-#' \eqn{Y_i}.  Blocks of \code{block.size} consecutive time points, separated by \code{block.space} time 
-#' points, are used instead of individual time points to reduce dependence between estimates produced from 
-#' the timeseries formed by odd and even blocks, respectively.
-#' 
+#' The \eqn{i}th column of \code{W_odd} is the estimate of \eqn{x_i} produced 
+#' from the odd blocks (of length \code{block.size}) of \eqn{Y_i}. The \eqn{i}th 
+#' column of \code{W_even} is the estimate of \eqn{x_i} produced from the even 
+#' blocks (of length \code{block.size}) of \eqn{Y_i}.  Blocks are defined as 
+#' \code{block.size} consecutive time points, separated by \code{block.space} 
+#' time points.  These are used instead of individual time points to reduce 
+#' dependence between estimates produced from the odd and even timeseries.
 #' 
 #' @export
-#' @return A list containing four elements, each a vector, to be input into the \eqn{i}th columns of W_part1, 
-#' W_part2, W_odd and W_even, respectively.  
-#' @examples \dontrun{
+#' @return A list containing five elements, each a vector, to be input into the 
+#' \eqn{i}th columns of \code{W_all}, \code{W_part1}, \code{W_part2}, 
+#' \code{W_odd} and \code{W_even}, respectively.  
 #'
-#'}
 getSubEstimates <- function(Y, FUN, block.size=5, block.space=1){
   
   ntime <- nrow(Y)
@@ -69,12 +73,13 @@ getSubEstimates <- function(Y, FUN, block.size=5, block.space=1){
   
   # Apply FUN to each sub-timeseries
   FUN <- match.fun(FUN)
+  w_all <- FUN(Y)
   w_part1 <- FUN(Y[inds1,])
   w_part2 <- FUN(Y[inds2,])
   w_odd <- FUN(Y[inds_odd,])
   w_even <- FUN(Y[inds_even,])
   
-  result <- list(w_part1, w_part2, w_odd, w_even)
-  names(result) <- c('w_part1','w_part2','w_odd','w_even')
+  result <- list(w_all, w_part1, w_part2, w_odd, w_even)
+  names(result) <- c('w_all','w_part1','w_part2','w_odd','w_even')
   return(result)
 }

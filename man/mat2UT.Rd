@@ -2,7 +2,7 @@
 % Please edit documentation in R/mat2UT.R
 \name{mat2UT}
 \alias{mat2UT}
-\title{Matrix to Upper Triangular}
+\title{Matrix to Upper Triangular Vector}
 \usage{
 mat2UT(x)
 }
@@ -14,10 +14,5 @@ The vectorized upper triangle of x.
 }
 \description{
 Returns the vectorized upper triangle of a square matrix
-}
-\examples{
-\dontrun{
-
-}
 }
 

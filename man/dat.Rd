@@ -3,8 +3,8 @@
 \docType{data}
 \name{dat}
 \alias{dat}
-\title{Example Time Series Data}
-\format{A \code{list} with 10 elements, and each element has 
+\title{Example Time Series Data from Human Connectome Project}
+\format{A \code{list} with 10 elements, where each element has 
 4800 rows and 25 columns corresponding to 4800 time points 
 and 25 regions of interest from independent components analysis (ICA).}
 \usage{

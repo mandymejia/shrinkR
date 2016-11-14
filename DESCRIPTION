@@ -1,11 +1,7 @@
 Package: shrinkR
 Type: Package
-Title: Performs empirical Bayes shrinkage of subject-level estimates from fMRI
-    or other time series data towards the group average.
-    Applicable to estimates of resting-state functional connectivity, task
-    activation, or other quantities obtained by summarizing over time points
-    in a time series.
-Version: 1.1
+Title: Empirical Bayes Shrinkage of Estimates from Time Series Data
+Version: 2.0
 Date: 2016-11-14
 Author: Amanda F. Mejia
 Maintainer: Amanda Mejia <mandy.mejia@gmail.com>
@@ -31,4 +27,4 @@ Description: Empirical Bayes shrinkage estimators are a weighted average between
     subjects.  All subjects are assumed to have the same time series length.
 License: GPL-2
 LazyData: true
-RoxygenNote: 5.0.1.9000
+RoxygenNote: 5.0.1

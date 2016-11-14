@@ -1,17 +1,15 @@
-#' @title Upper Triangular to Matrix
-#' @description  Returns the symmatric square matrix from a vector containing the upper 
-#' triangular elements
+#' @title Upper Triangular Vector to Matrix
+#' @description  Returns the symmatric square matrix from a vector containing 
+#' the upper triangular elements
 #'
-#' @param x A vector containing the upper triangular elements of a square, symmetric 
-#' matrix.
-#' @param diag A scalar equal to the diagonal values of the matrix to be returned.
+#' @param x A vector containing the upper triangular elements of a square, 
+#' symmetric matrix.
+#' @param diag A scalar equal to the diagonal values of the matrix.
 #' 
 #' @export
-#' @return A symmetric matrix with the values of x in the upper and lower triangles 
-#' and the value \code{diag} on the diagonals.
-#' @examples \dontrun{
-#'
-#'}
+#' @return A symmetric matrix with the values of \code{x} in the upper and 
+#' lower triangles and the value \code{diag} on the diagonal.
+#' 
 UT2mat <- function(x, diag=1){
 
   if(!is.vector(x) | !is.numeric(x)) stop('x must be a numeric vector')
