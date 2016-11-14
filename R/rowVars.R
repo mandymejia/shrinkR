@@ -1,11 +1,10 @@
-#' @title Computes variance of each row of a matrix.
+#' @title Row Variances
 #'
-#' @description 
+#' @description Computes variance of each row of a matrix.
 #' @param x a matrix
-#' @details 
 #' @export
-#' @return 
-#' @importFrom 
+#' @return A vector of numerics, same length as the number of rows of the 
+#' matrix
 #' @examples \dontrun{
 #'
 #'}

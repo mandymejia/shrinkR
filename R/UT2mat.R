@@ -1,7 +1,7 @@
-#' @title Returns the symmatric square matrix from a vector containing the upper 
+#' @title Upper Triangular to Matrix
+#' @description  Returns the symmatric square matrix from a vector containing the upper 
 #' triangular elements
 #'
-#' @description 
 #' @param x A vector containing the upper triangular elements of a square, symmetric 
 #' matrix.
 #' @param diag A scalar equal to the diagonal values of the matrix to be returned.

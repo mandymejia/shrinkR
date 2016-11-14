@@ -12,28 +12,41 @@
 #' produced from the odd blocks of the time series of subject i (see getSubEstimates for details)
 #' @param W_even An M-by-n matrix, where the ith column contains estimates of the M quantities of interest
 #' produced from the even blocks of the time series of subject i (see getSubEstimates for details)
-#' @details This function performs empirical Bayes shrinkage towards the group mean of subject-level 
-#' estimates of some summary statistic of stationary or nonstationary time series data (e.g. functional connectivity 
-#' matrices produced from resting-state fMRI data).  If the quantity of interest is a voxel pair-wise correlation, 
-#' similarity or distance matrix for use in clustering, shrinkage estimates can be used in place of raw subject-level 
-#' estimates to produce more reliable subject-level brain parcellations.  The shrinkage parameter \eqn{\lambda}
-#' ranges from 0 (no shrinkage of subject-level estimates) to 1 (complete shrinkage, so subject-level 
-#' estimates are replaced with the group average), and is determined by the relationship between within-subject 
-#' variance and between-subject variance.  The shrinkage parameters \eqn{\lambda_m}, \eqn{m = 1,\dots,M}, are 
-#' computed separately for every quantity of interest (e.g. every element in the upper triangle of a correlation matrix),
-#' but are shared across subjects. The shrinkage estimate of the value \eqn{X_i(m)} for subject \eqn{i=1,\dots,n} 
+#' @details This function performs empirical Bayes shrinkage towards the group 
+#' mean of subject-level 
+#' estimates of some summary statistic of stationary or nonstationary 
+#' time series data (e.g. functional connectivity 
+#' matrices produced from resting-state fMRI data).  If the quantity of 
+#' interest is a voxel pair-wise correlation, 
+#' similarity or distance matrix for use in clustering, shrinkage estimates 
+#' can be used in place of raw subject-level 
+#' estimates to produce more reliable subject-level brain parcellations.  
+#' The shrinkage parameter \eqn{\lambda}
+#' ranges from 0 (no shrinkage of subject-level estimates) to 1 (complete 
+#' shrinkage, so subject-level 
+#' estimates are replaced with the group average), and is determined by the 
+#' relationship between within-subject 
+#' variance and between-subject variance.  The shrinkage parameters 
+#' \eqn{\lambda_m}, \eqn{m = 1,\dots,M}, are 
+#' computed separately for every quantity of interest (e.g. every element 
+#' in the upper triangle of a correlation matrix),
+#' but are shared across subjects. The shrinkage estimate of the value 
+#' \eqn{X_i(m)} for subject \eqn{i=1,\dots,n} 
 #' and quantity \eqn{m = 1,\dots,M} is
 #' 
 #'          \eqn{\tilde{X}_i(m) = \lambda_m(\bar{W}(m)) + [1-\lambda_m] W_i(m)}.
 #'          
-#' The "raw" observation \eqn{W_i} is the average of the \eqn{i}th column of W_part1 and W_part2, and \eqn{\bar{W}(m)}
+#' The "raw" observation \eqn{W_i} is the average of the \eqn{i}th column of 
+#' W_part1 and W_part2, and \eqn{\bar{W}(m)}
 #' is the average of \eqn{W_i} across all subjects \eqn{i=1,\dots,n}.
 #'          
-#' The shrinkage parameter \eqn{\lambda_m} represents the optimal trade-off between signal and noise.  More reliable 
-#' subject-level estimates will receive less shrinkage, while less reliable subject-level estimates will receive more 
+#' The shrinkage parameter \eqn{\lambda_m} represents the optimal trade-off 
+#' between signal and noise.  More reliable 
+#' subject-level estimates will receive less shrinkage, while less reliable 
+#' subject-level estimates will receive more 
 #' shrinkage.  \eqn{\lambda_m} is computed from the data as
 #' 
-#'        \eqn{\lambda_m = \sigma^2_{w/in}/(\sigma^2_{w/in}+\sigma^2_{b/wn}).
+#'        \eqn{\lambda_m = \sigma^2_{w/in}/(\sigma^2_{w/in}+\sigma^2_{b/wn})}.
 #' 
 #' The within-subject variance \eqn{\sigma^2_{w/in}} is composed of two components: sampling variance, or error due to 
 #' random variation in the data, and intrasession variance in the signal over time.  The second component is used

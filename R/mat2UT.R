@@ -1,6 +1,6 @@
-#' @title Returns the vectorized upper triangle of a square matrix
+#' @title Matrix to Upper Triangular
 #'
-#' @description 
+#' @description Returns the vectorized upper triangle of a square matrix
 #' @param x A square matrix
 #' 
 #' @export
